@@ -15,8 +15,8 @@ OC      := $(abspath $(RISCV_PATH)/bin/riscv64-unknown-elf-objcopy)
 
 #ASM_FLAGS     = -f
 
-RISCV_ARCH=rv32imac
-RISCV_ABI=ilp32
+RISCV_ARCH=rv64imac
+RISCV_ABI=ilp64
 RISCV_CMODEL=medlow
 RISCV_SERIES=sifive-3-series
 
@@ -30,8 +30,8 @@ OBJS = $(FILES:.S=.o)
 
 LINKER=-T linker.lds
 
-# ASFLAGS=$(ARCH)
-ASFLAGS=
+ASFLAGS=$(ARCH)
+# ASFLAGS=
 LDFLAGS=$(LINKER)
 
 all: $(TARGET_ELF) $(TARGET_HEX)
