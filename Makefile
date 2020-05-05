@@ -8,14 +8,13 @@ RISCV_PATH ?= $(toolchain_prefix)
 
 AS      := $(abspath $(RISCV_PATH)/bin/riscv64-unknown-elf-as)
 LD      := $(abspath $(RISCV_PATH)/bin/riscv64-unknown-elf-ld)
+CC      := $(abspath $(RISCV_PATH)/bin/riscv64-unknown-elf-ld)
 
 #ASM_FLAGS     = -f
 
 OBJS = $(FILES:.S=.o)
 
-all : $(TARGET)
-
-boot : $(OBJS)
+all : $(OBJS)
 	$(LD) -o $(TARGET) $(OBJS)
 
 %.o : $(FILES)
