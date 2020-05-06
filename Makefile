@@ -44,7 +44,7 @@ $(TARGET_ELF) : $(OBJS)
 $(TARGET_HEX) : $(TARGET_ELF)
 	$(OC) -O ihex $(TARGET_ELF) $(TARGET_HEX)
 
-%.o : $(FILES)
+$(OBJS) : $(FILES)
 	$(AS) $(ASFLAGS) $< -o $@
 
 clean:
@@ -55,4 +55,3 @@ debug:
 
 flash : $(TARGET_HEX)
 	JLinkExe -device FE310 -speed 1000 -if JTAG -jtagconf -1,-1 -autoconnect 1 -CommanderScript "./scripts/flash.jlink"
-
