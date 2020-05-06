@@ -1,8 +1,8 @@
+#!/bin/bash
+
 # Ported from freedom-e-sdk
 #  (https://github.com/sifive/freedom-e-sdk/blob/v201908-branch/scripts/debug)
 # under MIT license.
-
-#!/bin/bash
 
 set -e
 set -o pipefail
