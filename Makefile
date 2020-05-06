@@ -52,3 +52,7 @@ clean:
 
 debug:
 	scripts/debug --elf $(TARGET_ELF) --jlink JLinkGDBServer --gdb $(GDB)
+
+flash : $(TARGET_HEX)
+	JLinkExe -device FE310 -speed 1000 -if JTAG -jtagconf -1,-1 -autoconnect 1 -CommanderScript "upload.jlink"
+

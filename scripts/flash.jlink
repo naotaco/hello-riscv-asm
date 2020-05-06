@@ -1,0 +1,4 @@
+h
+loadfile ./boot.hex
+r
+q
