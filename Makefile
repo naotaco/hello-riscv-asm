@@ -6,21 +6,22 @@ FILES = boot.S
 
 builddir := .
 
-RISCV_PATH ?= $(toolchain_prefix)
+TOOLCHAIN=$(RISCV_PATH)/bin/riscv32-unknown-elf
 
-AS      := $(abspath $(RISCV_PATH)/bin/riscv64-unknown-elf-as)
-LD      := $(abspath $(RISCV_PATH)/bin/riscv64-unknown-elf-ld)
-CC      := $(abspath $(RISCV_PATH)/bin/riscv64-unknown-elf-gcc)
-OC      := $(abspath $(RISCV_PATH)/bin/riscv64-unknown-elf-objcopy)
+AS      := $(abspath $(TOOLCHAIN)-as)
+LD      := $(abspath $(TOOLCHAIN)-ld)
+GDB     := $(abspath $(TOOLCHAIN)-gdb)
+OC      := $(abspath $(TOOLCHAIN)-objcopy)
 
 #ASM_FLAGS     = -f
 
-RISCV_ARCH=rv64imac
-RISCV_ABI=ilp64
+RISCV_ARCH=rv32imac
+RISCV_ABI=ilp32
 RISCV_CMODEL=medlow
 RISCV_SERIES=sifive-3-series
 
-ARCH=-march=$(RISCV_ARCH)
+ARCH=-march=$(RISCV_ARCH) -mabi=$(RISCV_ABI)
+# -march=rv32imac -mabi=ilp32:
 
 TARGET_TAGS=board jlink
 TARGET_DHRY_ITERS=20000000
@@ -30,12 +31,12 @@ OBJS = $(FILES:.S=.o)
 
 LINKER=-T linker.lds
 
-ASFLAGS=$(ARCH)
+ASFLAGS=$(ARCH) -g
 # ASFLAGS=
 LDFLAGS=$(LINKER)
 
 all: $(TARGET_ELF) $(TARGET_HEX)
-	# nothing
+	@echo "Done."	
 
 $(TARGET_ELF) : $(OBJS)
 	$(LD) $(LDFLAGS) -o $(TARGET_ELF) $(OBJS)
@@ -48,3 +49,6 @@ $(TARGET_HEX) : $(TARGET_ELF)
 
 clean:
 	rm -rf $(OBJS) $(TARGET) $(TARGET_ELF) $(TARGET_HEX)
+
+debug:
+	scripts/debug --elf $(TARGET_ELF) --jlink JLinkGDBServer --gdb $(GDB)

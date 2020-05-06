@@ -1,7 +1,7 @@
 .section .text
 .globl _start
 _start:
-
+	lui sp, 0x80004
 	li a0, 0
 	li a1, 0x11
 	li a2, 0x22
